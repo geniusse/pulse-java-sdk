@@ -33,7 +33,7 @@ public class MessageReceiver {
 	public Message recv( BufferedReader buffer ) {
 
 		Message data = null;
-		String msg       = null;
+		String msg   = null;
 
 		// read raw message
 		try {
