@@ -22,60 +22,41 @@
 
 package com.geniusse.pulse.model;
 
-public class TelemetryData extends DeviceData {
+import java.util.Date;
 
-	private double longitude;
 
-	public double getLongitude() {
-		return this.longitude;
+public abstract class DeviceData {
+
+	private String deviceId = null;
+
+	public String getDeviceId() {
+		return this.deviceId;
 	}
 
-	public void setLongitude( double longitude ) {
-		this.longitude = longitude;
-	}
-
-
-	private double latitude;
-
-	public double getLatitude() {
-		return this.latitude;
-	}
-
-	public void setLatitude( double latitude ) {
-		this.latitude = latitude;
+	public void setDeviceId( String deviceId ) {
+		this.deviceId = deviceId;
 	}
 
 
-	private int speed;
+	private String vehicleRegistration = null;
 
-	public int getSpeed() {
-		return this.speed;
+	public String getVehicleRegistration() {
+		return this.vehicleRegistration;
 	}
 
-	public void setSpeed( int speed ) {
-		this.speed = speed;
-	}
-
-
-	private int heading;
-
-	public int getHeading() {
-		return this.heading;
-	}
-
-	public void setHeading( int heading ) {
-		this.heading = heading;
+	public void setVehicleRegistration( String vehicleRegistration ) {
+		this.vehicleRegistration = vehicleRegistration;
 	}
 
 
-	private long mileage;
+	private Date timestamp = null;
 
-	public long getMileage() {
-		return this.mileage;
+	public Date getTimestamp() {
+		return this.timestamp;
 	}
 
-	public void setMileage( long mileage ) {
-		this.mileage = mileage;
+	public void setTimestamp( String timestamp ) throws IllegalArgumentException {
+		this.timestamp = javax.xml.bind.DatatypeConverter.parseDateTime( timestamp ).getTime();
 	}
 
 }
