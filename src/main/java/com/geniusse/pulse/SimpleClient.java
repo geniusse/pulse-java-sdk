@@ -47,7 +47,7 @@ public class SimpleClient {
 		Socket m_sock     = null;
 
 		MessageReceiver receiver = new MessageReceiver();
-		Message msg_data         = null;
+		Message message          = null;
 
 
 		System.out.println( "Pulse simple client, listening on port: " + bind_port );
@@ -65,11 +65,11 @@ public class SimpleClient {
 
 			try {
 
-				BufferedReader msg_buffer = new BufferedReader( new InputStreamReader( m_sock.getInputStream() ) );
+				BufferedReader buffer = new BufferedReader( new InputStreamReader( m_sock.getInputStream() ) );
 
-				while ( ( msg_data = receiver.recv( msg_buffer ) ) != null ) {
-					System.out.println( "type: " + msg_data.getMsgType() );
-					System.out.println( "body: " + msg_data.getMsgBody() );
+				while ( ( message = receiver.recv( buffer ) ) != null ) {
+					System.out.println( "type: " + message.getMsgType() );
+					System.out.println( "body: " + message.getMsgBody() );
 				}
 
 			} catch ( IOException e ) {
