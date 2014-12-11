@@ -2,6 +2,9 @@
 .project
 .classpath
 
+# maven
+/target/
+
 # swap files
 *.swp
 
