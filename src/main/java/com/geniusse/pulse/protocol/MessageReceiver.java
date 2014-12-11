@@ -32,22 +32,27 @@ public class MessageReceiver {
 
 	public MessageData recv( BufferedReader buffer ) {
 
-		MessageData data = new MessageData();
+		MessageData data = null;
 		String msg       = null;
 
 		// read raw message
 		try {
 			msg = buffer.readLine();
 		} catch ( IOException e ) {
-
+			// FIXME: handle exception
 		}
 
 		// parse message
-		String [] segments = msg.split( "|", 2 );
+		if ( msg != null ) {
 
-		if ( segments.length == 2 ) {
-			data.setMsgType( segments[0] );
-			data.setMsgBody( segments[1] );
+			String [] segments = msg.split( "\\|", 2 );
+
+			if ( segments.length == 2 ) {
+				data = new MessageData();
+				data.setMsgType( segments[0] );
+				data.setMsgBody( segments[1] );
+			}
+
 		}
 
 		return data;
