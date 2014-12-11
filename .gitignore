@@ -1,0 +1,10 @@
+# eclipse
+.project
+.classpath
+
+# swap files
+*.swp
+
+# project specific
+/bin/
+
