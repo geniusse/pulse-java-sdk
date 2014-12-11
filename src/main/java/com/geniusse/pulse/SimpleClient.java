@@ -22,11 +22,64 @@
 
 package com.geniusse.pulse;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import com.geniusse.pulse.model.MessageData;
+import com.geniusse.pulse.protocol.MessageReceiver;
+
+
 public class SimpleClient {
 
 	public static void main( String argv[] ) throws Exception {
 
-		System.out.println( "Pulse simple java client" );
+		int bind_port     = 8765;
+		if ( argv.length >= 1 ) {
+			bind_port = Integer.parseInt( argv[0] );
+		}
+
+
+		@SuppressWarnings("resource")
+		ServerSocket sock = new ServerSocket( bind_port, 1 );
+		Socket m_sock     = null;
+
+		MessageReceiver receiver = new MessageReceiver();
+		MessageData msg_data     = null;
+
+
+		System.out.println( "Pulse simple client, listening on port: " + bind_port );
+
+		while ( true ) {
+
+			try {
+				m_sock = sock.accept();
+			} catch ( IOException e ) {
+				System.out.println( "failed to accept a connection, exception: " + e.getMessage() );
+				continue;
+			}
+
+			System.out.println( "connection accepted from " + m_sock.getInetAddress().toString() );
+
+			try {
+
+				BufferedReader msg_buffer = new BufferedReader( new InputStreamReader( m_sock.getInputStream() ) );
+
+				while ( ( msg_data = receiver.recv( msg_buffer ) ) != null ) {
+					System.out.println( "type: " + msg_data.getMsgType() );
+					System.out.println( "body: " + msg_data.getMsgBody() );
+				}
+
+			} catch ( IOException e ) {
+				System.out.println( "failed to read message, exception: " + e.getMessage() );
+			}
+
+			m_sock.close();
+			System.out.println( "connection closed" );
+
+		}
 
 	}
 
