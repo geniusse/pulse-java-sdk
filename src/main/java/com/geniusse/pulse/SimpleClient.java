@@ -28,7 +28,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.geniusse.pulse.model.MessageData;
+import com.geniusse.pulse.model.Message;
 import com.geniusse.pulse.protocol.MessageReceiver;
 
 
@@ -47,7 +47,7 @@ public class SimpleClient {
 		Socket m_sock     = null;
 
 		MessageReceiver receiver = new MessageReceiver();
-		MessageData msg_data     = null;
+		Message msg_data         = null;
 
 
 		System.out.println( "Pulse simple client, listening on port: " + bind_port );

@@ -25,14 +25,14 @@ package com.geniusse.pulse.protocol;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import com.geniusse.pulse.model.MessageData;
+import com.geniusse.pulse.model.Message;
 
 
 public class MessageReceiver {
 
-	public MessageData recv( BufferedReader buffer ) {
+	public Message recv( BufferedReader buffer ) {
 
-		MessageData data = null;
+		Message data = null;
 		String msg       = null;
 
 		// read raw message
@@ -48,7 +48,7 @@ public class MessageReceiver {
 			String [] segments = msg.split( "\\|", 2 );
 
 			if ( segments.length == 2 ) {
-				data = new MessageData();
+				data = new Message();
 				data.setMsgType( segments[0] );
 				data.setMsgBody( segments[1] );
 			}

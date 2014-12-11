@@ -22,7 +22,7 @@
 
 package com.geniusse.pulse.model;
 
-public class MessageData {
+public class Message {
 
 	private String msgType = null;
 
