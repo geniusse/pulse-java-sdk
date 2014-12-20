@@ -29,7 +29,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.geniusse.pulse.model.Message;
+import com.geniusse.pulse.model.TelemetryData;
 import com.geniusse.pulse.protocol.MessageReceiver;
+import com.geniusse.pulse.protocol.TelemetryMessageParser;
 
 
 public class SimpleClient {
@@ -66,10 +68,27 @@ public class SimpleClient {
 			try {
 
 				BufferedReader buffer = new BufferedReader( new InputStreamReader( m_sock.getInputStream() ) );
+				TelemetryMessageParser telemetry = new TelemetryMessageParser();
 
 				while ( ( message = receiver.recv( buffer ) ) != null ) {
-					System.out.println( "type: " + message.getMsgType() );
-					System.out.println( "body: " + message.getMsgBody() );
+
+					switch ( message.getMsgType() ) {
+						case "GCRD":
+							TelemetryData data = telemetry.parse( message.getMsgBody() );
+
+							if ( data != null ) {
+								System.out.println( "telemetry data received for device: " + data.getDeviceId() + ", timestamp: " + data.getTimestamp() );
+							} else {
+								System.out.println( "error parsing telemetry data" );
+							}
+
+							break;
+
+						default:
+							System.out.println( "unknown message type: " + message.getMsgType() );
+							break;
+					}
+
 				}
 
 			} catch ( IOException e ) {

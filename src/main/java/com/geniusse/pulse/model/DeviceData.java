@@ -22,6 +22,8 @@
 
 package com.geniusse.pulse.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -55,8 +57,9 @@ public abstract class DeviceData {
 		return this.timestamp;
 	}
 
-	public void setTimestamp( String timestamp ) throws IllegalArgumentException {
-		this.timestamp = javax.xml.bind.DatatypeConverter.parseDateTime( timestamp ).getTime();
+	public void setTimestamp( String timestamp ) throws ParseException {
+		SimpleDateFormat iso_date = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssXXX" );
+		this.timestamp = iso_date.parse( timestamp );
 	}
 
 }

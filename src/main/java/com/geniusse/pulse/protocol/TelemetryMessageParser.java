@@ -22,7 +22,41 @@
 
 package com.geniusse.pulse.protocol;
 
+import com.geniusse.pulse.model.TelemetryData;
+
+
 public class TelemetryMessageParser {
+
+	public TelemetryData parse( String msg_body ) {
+
+		TelemetryData data = null;
+
+		String [] segments = msg_body.split( "," );
+
+		if ( segments.length == 8 ) {
+
+			data = new TelemetryData();
+
+			data.setDeviceId( segments[0] );
+			data.setVehicleRegistration( segments[1] );
+			data.setLongitude( Double.parseDouble( segments[3] ) );
+			data.setLatitude( Double.parseDouble( segments[4] ) );
+			data.setSpeed( Integer.parseUnsignedInt( segments[5] ) );
+			data.setHeading( Integer.parseInt( segments[6] ) );
+			data.setMileage( Long.parseUnsignedLong( segments[7] ) );
+
+			try {
+				data.setTimestamp( segments[2] );
+			} catch ( java.text.ParseException pe ) {
+				pe.printStackTrace();
+				data = null;
+			}
+
+		}
+
+		return data;
+
+	}
 
 }
 
