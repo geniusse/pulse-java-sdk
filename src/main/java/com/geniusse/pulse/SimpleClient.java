@@ -93,6 +93,8 @@ public class SimpleClient {
 
 			} catch ( IOException e ) {
 				System.out.println( "failed to read message, exception: " + e.getMessage() );
+			} catch ( Exception e ) {
+				e.printStackTrace();
 			}
 
 			m_sock.close();
