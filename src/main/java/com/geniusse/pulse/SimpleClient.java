@@ -28,8 +28,10 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.geniusse.pulse.model.AlertData;
 import com.geniusse.pulse.model.Message;
 import com.geniusse.pulse.model.TelemetryData;
+import com.geniusse.pulse.protocol.AlertMessageParser;
 import com.geniusse.pulse.protocol.MessageReceiver;
 import com.geniusse.pulse.protocol.TelemetryMessageParser;
 
@@ -69,24 +71,41 @@ public class SimpleClient {
 
 				BufferedReader buffer = new BufferedReader( new InputStreamReader( m_sock.getInputStream() ) );
 				TelemetryMessageParser telemetry = new TelemetryMessageParser();
+				AlertMessageParser     alert     = new AlertMessageParser();
 
 				while ( ( message = receiver.recv( buffer ) ) != null ) {
 
 					switch ( message.getMsgType() ) {
-						case "GCRD":
-							TelemetryData data = telemetry.parse( message.getMsgBody() );
 
-							if ( data != null ) {
-								System.out.println( "telemetry data received for device: " + data.getDeviceId() + ", timestamp: " + data.getTimestamp() );
+						case "GCRD":
+
+							TelemetryData telemetry_data = telemetry.parse( message.getMsgBody() );
+
+							if ( telemetry_data != null ) {
+								System.out.println( "telemetry data received for device: " + telemetry_data.getDeviceId() + ", timestamp: " + telemetry_data.getTimestamp() );
 							} else {
 								System.out.println( "error parsing telemetry data" );
 							}
 
 							break;
 
+						case "ALRT":
+
+							AlertData alert_msg = alert.parse( message.getMsgBody() );
+
+							if ( alert_msg != null ) {
+								System.out.println( "alert data received for device: " + alert_msg.getDeviceId() + ", timestamp: " + alert_msg.getTimestamp() );
+							} else {
+								System.out.println( "error parsing alert data" );
+							}
+
+
+							break;
+
 						default:
 							System.out.println( "unknown message type: " + message.getMsgType() );
 							break;
+
 					}
 
 				}

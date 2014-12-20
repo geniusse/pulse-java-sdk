@@ -20,39 +20,29 @@
 */
 
 
-package com.geniusse.pulse.protocol;
+package com.geniusse.pulse.model;
 
-import com.geniusse.pulse.model.AlertData;
+public class AlertData extends DeviceData {
+
+	private String alertType = null;
+
+	public String getAlertType() {
+		return this.alertType;
+	}
+
+	public void setAlertType( String alertType ) {
+		this.alertType = alertType;
+	}
 
 
-public class AlertMessageParser {
+	private String alertData = null;
 
-	public AlertData parse( String msg_body ) {
+	public String alertData() {
+		return this.alertData;
+	}
 
-		AlertData data = null;
-
-		String [] segments = msg_body.split( ",", 5 );
-
-		if ( segments.length == 5 ) {
-
-			data = new AlertData();
-
-			data.setDeviceId( segments[0] );
-			data.setVehicleRegistration( segments[1] );
-			data.setAlertType( segments[3] );
-			data.setAlertData( segments[4] );
-
-			try {
-				data.setTimestamp( segments[2] );
-			} catch ( java.text.ParseException pe ) {
-				pe.printStackTrace();
-				data = null;
-			}
-
-		}
-
-		return data;
-
+	public void setAlertData( String alertData ) {
+		this.alertData = alertData;
 	}
 
 }
